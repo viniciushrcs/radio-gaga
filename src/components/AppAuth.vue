@@ -89,7 +89,11 @@
             </button>
           </form>
           <!-- Registration Form -->
-          <vee-form v-show="tab === 'register'" :validation-schema="schema">
+          <vee-form
+            v-show="tab === 'register'"
+            :validation-schema="schema"
+            @submit="register"
+          >
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -149,20 +153,25 @@
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
-              <select
+              <vee-field
+                as="select"
+                name="country"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
               >
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
-              </select>
+              </vee-field>
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
-              <input
+              <vee-field
                 type="checkbox"
+                name="tos"
+                value="1"
                 class="w-4 h-4 float-left -ml-6 mt-1 rounded"
               />
+              <ErrorMessage class="text-red-600" name="tos" />
               <label class="inline-block">Accept terms of service</label>
             </div>
             <button
@@ -191,9 +200,9 @@ export default {
         email: "email",
         age: "minValue:18|maxValue:80",
         password: "required|min:4|max:100",
-        confirm_password: "confirmed:@password",
-        country: "",
-        toss: "",
+        confirm_password: "passwordMismatch:@password",
+        country: "required",
+        tos: "tos",
       },
     };
   },
@@ -201,5 +210,6 @@ export default {
     ...mapState(useModalStore, ["hiddenClass"]),
     ...mapWritableState(useModalStore, ["isOpen"]),
   },
+  methods: {},
 };
 </script>
