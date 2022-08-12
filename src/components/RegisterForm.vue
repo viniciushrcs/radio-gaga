@@ -99,6 +99,8 @@
 </template>
 
 <script>
+import { auth } from "../utils/firebase";
+
 export default {
   name: "RegisterForm",
   data() {
@@ -121,16 +123,29 @@ export default {
     };
   },
   methods: {
-    register(value) {
+    async register(value) {
       this.registration.show_alert = true;
       this.registration.in_submission = true;
       this.registration.alert_variant = "bg-blue-500";
       this.registration.alert_msg =
         "Please wait while your account is being created";
 
+      let userCredentials;
+      try {
+        userCredentials = await auth.createUserWithEmailAndPassword(
+          value.email,
+          value.password
+        );
+      } catch (error) {
+        this.registration.in_submission = false;
+        this.registration.alert_variant = "bg-red-500";
+        this.registration.alert_msg = "An unexpected error ocurred. Try again";
+        return;
+      }
+
       this.registration.alert_variant = "bg-green-500";
       this.registration.alert_msg = "Account created successfully";
-      console.log(value);
+      console.log(userCredentials);
     },
   },
 };
