@@ -24,6 +24,7 @@ export default {
 
     defineRule("required", required);
     defineRule("tos", required);
+    defineRule("password_login", required);
     defineRule("min", min);
     defineRule("max", max);
     defineRule("alphaSpaces", alphaSpaces);
@@ -44,6 +45,7 @@ export default {
           maxValue: `The field ${ctx.field} is too high`,
           passwordMismatch: `The passwords don't match`,
           tos: `You must accept the Terms of Service`,
+          password_login: "Type your password to login",
         };
 
         const message = messages[ctx.rule.name]
