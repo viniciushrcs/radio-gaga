@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { auth } from "../utils/firebase";
+import { auth, usersColection } from "../utils/firebase";
 
 export default {
   name: "RegisterForm",
@@ -136,6 +136,20 @@ export default {
           value.email,
           value.password
         );
+      } catch (error) {
+        this.registration.in_submission = false;
+        this.registration.alert_variant = "bg-red-500";
+        this.registration.alert_msg = "An unexpected error ocurred. Try again";
+        return;
+      }
+
+      try {
+        await usersColection.add({
+          name: value.name,
+          email: value.email,
+          age: value.age,
+          country: value.country,
+        });
       } catch (error) {
         this.registration.in_submission = false;
         this.registration.alert_variant = "bg-red-500";
