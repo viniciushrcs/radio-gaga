@@ -99,8 +99,7 @@
 </template>
 
 <script>
-import { auth, usersColection } from "../utils/firebase";
-import { mapWritableState } from "pinia";
+import { mapActions } from "pinia";
 import useUserStore from "../stores/user";
 
 export default {
@@ -124,49 +123,29 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapWritableState(useUserStore, ["isLogged"]),
-  },
+
   methods: {
-    async register(value) {
+    ...mapActions(useUserStore, {
+      createUser: "register",
+    }),
+    async register(user) {
       this.registration.show_alert = true;
       this.registration.in_submission = true;
       this.registration.alert_variant = "bg-blue-500";
       this.registration.alert_msg =
         "Please wait while your account is being created";
 
-      let userCredentials;
       try {
-        userCredentials = await auth.createUserWithEmailAndPassword(
-          value.email,
-          value.password
-        );
+        await this.createUser(user);
       } catch (error) {
         this.registration.in_submission = false;
         this.registration.alert_variant = "bg-red-500";
         this.registration.alert_msg = "An unexpected error ocurred. Try again";
         return;
       }
-
-      try {
-        await usersColection.add({
-          name: value.name,
-          email: value.email,
-          age: value.age,
-          country: value.country,
-        });
-      } catch (error) {
-        this.registration.in_submission = false;
-        this.registration.alert_variant = "bg-red-500";
-        this.registration.alert_msg = "An unexpected error ocurred. Try again";
-        return;
-      }
-
-      this.isLogged = true;
 
       this.registration.alert_variant = "bg-green-500";
       this.registration.alert_msg = "Account created successfully";
-      console.log(userCredentials);
     },
   },
 };
