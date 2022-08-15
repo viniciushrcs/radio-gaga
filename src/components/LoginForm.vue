@@ -69,7 +69,6 @@ export default {
       this.log_in.alert_msg = "Please wait while we are logging you in";
 
       try {
-        console.log(values);
         await this.authenticate({
           email: values.email,
           password: values.password_login,
@@ -83,7 +82,7 @@ export default {
 
       this.log_in.alert_variant = "bg-green-500";
       this.log_in.alert_msg = "Sucess! You are logged";
-      console.log(values);
+      window.location.reload();
     },
   },
 };
