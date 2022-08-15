@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 import { auth, usersColection } from "../utils/firebase";
 
+interface LoginData {
+  email: string;
+  password: string;
+}
 interface User {
   password: string;
   name: string;
@@ -29,6 +33,14 @@ export default defineStore("user", {
       await userCredentials.user?.updateProfile({
         displayName: user.name,
       });
+
+      this.isLogged = true;
+    },
+    async authenticate(loginData: LoginData) {
+      await auth.signInWithEmailAndPassword(
+        loginData.email,
+        loginData.password
+      );
 
       this.isLogged = true;
     },
