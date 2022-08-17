@@ -54,9 +54,12 @@ export default {
     toggleAuthModal() {
       this.modalStore.isOpen = !this.modalStore.isOpen;
     },
-    async signOut() {
-      await this.userStore.signOut();
-      this.$router.push("/");
+    signOut() {
+      this.userStore.signOut();
+
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push("/");
+      }
     },
   },
 };
