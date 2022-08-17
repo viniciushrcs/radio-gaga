@@ -24,10 +24,7 @@
           </li>
           <template v-else>
             <li>
-              <a
-                class="px-2 text-white"
-                href="#"
-                @click.prevent="userStore.signOut"
+              <a class="px-2 text-white" href="#" @click.prevent="signOut"
                 >Logout</a
               >
             </li>
@@ -56,6 +53,10 @@ export default {
   methods: {
     toggleAuthModal() {
       this.modalStore.isOpen = !this.modalStore.isOpen;
+    },
+    async signOut() {
+      await this.userStore.signOut();
+      this.$router.push("/");
     },
   },
 };
