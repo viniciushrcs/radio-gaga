@@ -16,7 +16,7 @@
         <i class="fa fa-play text-gray-500 text-xl"></i>
       </button>
       <!-- Current Position -->
-      <div class="player-currenttime">00:00</div>
+      <div class="player-currentTime">00:00</div>
       <!-- Scrub Container  -->
       <div class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
         <!-- Player Ball -->
